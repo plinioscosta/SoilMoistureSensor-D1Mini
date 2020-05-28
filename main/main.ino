@@ -60,7 +60,7 @@ void setup() {
     client.publish("umidadePlanta", MQTTmsg);
     delay(2000);
     Serial.println("Sleeping");
-    ESP.deepSleep(60*60e6); // Deep Sleep for 1 minute  
+    ESP.deepSleep(10*60e6); // Deep Sleep for 1 minute  
     }
   }
 }
