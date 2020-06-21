@@ -6,10 +6,13 @@ IPAddress mqtt_server(192, 168, 15, 48);
 WiFiClient espClient;
 PubSubClient client(espClient);
 char MQTTmsg[50];
+#define PW  5
 
 void setup() {
   Serial.begin(9600);
-
+  pinMode(PW, OUTPUT);
+  digitalWrite(PW, HIGH);
+  
   //Wifi connection
   IPAddress arduino_ip_1 (192, 168, 15, 21);
   IPAddress dns_ip_1     (  8,   8,   8,   8);
@@ -46,10 +49,10 @@ void setup() {
     client.connect(clientId.c_str(),"pcosta", "PlinioPc1623" );
     delay(500);
     Serial.print(".");
-      if(i==10){
+      if(i==20){
         Serial.print("Not possible to connected to MQTT server\n");
         Serial.println("Sleeping");
-        ESP.deepSleep(5*60e6); // Deep Sleep for 1 minute
+        ESP.deepSleep(10*60e6); // Deep Sleep for 10 minute
       }
     }
     else{
@@ -58,9 +61,10 @@ void setup() {
     snprintf (MQTTmsg, 75, "%f", sensorValue);
     Serial.println(MQTTmsg);
     client.publish("umidadePlanta", MQTTmsg);
+    digitalWrite(PW, LOW);
     delay(2000);
     Serial.println("Sleeping");
-    ESP.deepSleep(10*60e6); // Deep Sleep for 1 minute  
+    ESP.deepSleep(60*60e6); // Deep Sleep for 60 minute  
     }
   }
 }
